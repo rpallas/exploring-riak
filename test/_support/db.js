@@ -32,7 +32,7 @@ var clearDownData = (done) => {
 var runSeeds = (done) => {
   var data = [];
   var maximals = riak.bucket('maximals').objects;
-  [seedData.maximals[0]].forEach((maximal) => {
+  seedData.maximals.forEach((maximal) => {
     data.push(maximals.new(`${maximal.owner}:${maximal.name}`, maximal));
   });
   maximals.save(data, done);
