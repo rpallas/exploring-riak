@@ -2,12 +2,13 @@ var _ = require('lodash');
 var Async = require('async');
 var Path = require('path');
 
-var Riak = require('basho-riak-client');
+var riak = require('nodiak').getClient();
+
+//riak.stats((err, response) => {
+//  console.log(err || response);
+//});
 
 var seedData = require('./seeds/maximals.json');
-var db = new Riak.Client([
-  '127.0.0.1:8098',
-]);
 
 var before = (done) => {
   runSeeds(done);
@@ -21,27 +22,24 @@ var beforeEach = (done) => {
 };
 
 var clearDownData = (done) => {
-  Async.each([seedData.maximals[0]], (maximal, callback) => {
-    console.log(`Deleting ${maximal.owner}:${maximal.name}`);
-    db.deleteValue({ bucket: 'maximals', key: `${maximal.owner}:${maximal.name}`}, (err, result) => {
-      console.log(err || `${maximal.owner}:${maximal.name} deleted`);
-      callback(err, result);
-    });
+  var maximals = riak.bucket('maximals').objects;
+  Async.auto({
+    maximals: (callback) => {
+      maximals.all(callback);
+    },
+    deletes: ['maximals', (callback, results) => {
+      maximals.delete(results.maximals, callback);
+    }]
   }, done);
 };
 
 var runSeeds = (done) => {
-  Async.each([seedData.maximals[0]], (maximal, callback) => {
-    console.log(`Storing ${maximal.owner}:${maximal.name}`);
-    db.storeValue({
-      bucket: 'maximals',
-      key: `${maximal.owner}:${maximal.name}`,
-      value: maximal
-    }, (err, result) => {
-      console.log(err || `Stored ${maximal.owner}:${maximal.name}`);
-      callback(err, result);
-    });
-  }, done);
+  var riakData = [];
+  var maximals = riak.bucket('maximals').objects;
+  seedData.maximals.forEach((maximal) => {
+    riakData.push(maximals.new(`${maximal.owner}:${maximal.name}`, maximal));
+  });
+  maximals.save(riakData, done);
 };
 
 var afterEach = (done) => {
@@ -49,17 +47,11 @@ var afterEach = (done) => {
 };
 
 var after = (done) => {
-  db.shutdown((state) => {
-    if (state === Riak.Cluster.State.SHUTDOWN) {
-      console.log("cluster stopped");
-      process.exit();
-    }
-    done();
-  });
+  done();
 };
 
 exports = module.exports = {
-  db: db,
+  db: riak,
   before: before,
   beforeEach: beforeEach,
   afterEach: afterEach,
