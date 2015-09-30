@@ -45,16 +45,28 @@ describe('Nodiak', () => {
     });
   });
 
-   it('should store a key/value in riak', (done) => {
-     var things = db.bucket('things').objects;
-     var thing = things.new('owner:name', { thing: 'value'});
-     things.save(thing, (err, result) => {
-       expect(result).to.exist();
-       expect(result.data).to.exist();
-       expect(result.data.thing).to.equal('value');
-       done(err);
-     });
-   });
+  it('should store a key/value in riak', (done) => {
+    var things = db.bucket('things').objects;
+    var thing = things.new('owner:name', {thing: 'value'});
+    things.save(thing, (err, result) => {
+      expect(result).to.exist();
+      expect(result.data).to.exist();
+      expect(result.data.thing).to.equal('value');
+      done(err);
+    });
+  });
+
+  it('should delete a key/value from riak', function (done) {
+    var things = db.bucket('things').objects;
+    var thing = things.new('owner:name', { thing: 'value'});
+    things.save(thing, (/*err, result*/) => {
+      things.delete(thing, (err, result) => {
+        expect(result.data).to.equal('');
+        expect(result.metadata.status_code).to.equal(204);
+        done(err);
+      });
+    });
+  });
 
   it('should retrieve a maximal from riak', (done) => {
     db.bucket('maximals').objects.get(['test:foo'], (err, result) => {
@@ -63,9 +75,5 @@ describe('Nodiak', () => {
       done();
     });
   });
-
-  // it('should delete a maximal from riak', function (done) {
-  //   done();
-  // });
 
 });
