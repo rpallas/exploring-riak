@@ -36,6 +36,14 @@ after((done) => {
 
 describe('Nodiak', () => {
 
+  it('should ping riak', (done) => {
+    db.ping((err, result) => {
+      expect(err).to.not.exist();
+      expect(result).to.equal('OK');
+      done();
+    });
+  });
+
   it('should retrieve stats from riak', (done) => {
     db.stats((err, result) => {
       expect(result).to.exist();
