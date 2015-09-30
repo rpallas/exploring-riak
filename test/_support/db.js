@@ -2,11 +2,7 @@ var _ = require('lodash');
 var Async = require('async');
 var Path = require('path');
 
-var riak = require('nodiak').getClient();
-
-//riak.stats((err, response) => {
-//  console.log(err || response);
-//});
+var riak = require('nodiak').getClient('http', 'localhost', 11098);
 
 var seedData = require('./seeds/maximals.json');
 
@@ -34,12 +30,12 @@ var clearDownData = (done) => {
 };
 
 var runSeeds = (done) => {
-  var riakData = [];
+  var data = [];
   var maximals = riak.bucket('maximals').objects;
-  seedData.maximals.forEach((maximal) => {
-    riakData.push(maximals.new(`${maximal.owner}:${maximal.name}`, maximal));
+  [seedData.maximals[0]].forEach((maximal) => {
+    data.push(maximals.new(`${maximal.owner}:${maximal.name}`, maximal));
   });
-  maximals.save(riakData, done);
+  maximals.save(data, done);
 };
 
 var afterEach = (done) => {
