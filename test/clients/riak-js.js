@@ -19,14 +19,13 @@ describe('Riak-js Client', () => {
   var riak;
 
   beforeEach((done) => {
-    riak = Riak.getClient({host: "127.0.0.1", port: "11098"});
+    riak = Riak({host: "127.0.0.1", port: "11098"});
     done();
   });
 
   it('should ping riak', (done) => {
     riak.ping((err, result) => {
-      console.log(err, result);
-      //expect(result).to.equal(true);
+      expect(result).to.equal(true);
       done(err);
     });
   });
