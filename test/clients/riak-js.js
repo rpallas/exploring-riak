@@ -2,6 +2,7 @@ var _ = require('lodash');
 var Async = require('async');
 var Code = require('code');
 var Lab = require('lab');
+var Riak = require('riak-js');
 
 // Test shortcuts
 
@@ -18,13 +19,16 @@ describe('Riak-js Client', () => {
   var riak;
 
   beforeEach((done) => {
-    //riak = require('basho-riak-client')...
+    riak = Riak.getClient({host: "127.0.0.1", port: "11098"});
     done();
   });
 
   it('should ping riak', (done) => {
-    //TODO
-    done();
+    riak.ping((err, result) => {
+      console.log(err, result);
+      //expect(result).to.equal(true);
+      done(err);
+    });
   });
 
   it('should retrieve stats from riak', (done) => {
