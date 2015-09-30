@@ -3,6 +3,7 @@ var Async = require('async');
 var Code = require('code');
 var Lab = require('lab');
 
+var Riak = require('basho-riak-client');
 // Test shortcuts
 
 var lab = exports.lab = Lab.script();
@@ -15,16 +16,28 @@ var it = lab.it;
 var expect = Code.expect;
 
 describe('Basho Riak Client', () => {
-  var riak;
+  var riak = new Riak.Client([
+    'localhost:11098'
+  ]);
 
-  beforeEach((done) => {
-    //riak = require('basho-riak-client')...
+  before((done) => {
     done();
   });
 
+  after((done) => {
+    riak.shutdown((state) => {
+      if (state === Riak.Cluster.State.SHUTDOWN) {
+        done();
+      }
+    });
+  });
+
   it('should ping riak', (done) => {
-    //TODO
-    done();
+    riak.ping((err, result) => {
+      console.log(err, result);
+      //expect(result).to.equal(true);
+      done(err);
+    });
   });
 
   it('should retrieve stats from riak', (done) => {
@@ -37,7 +50,7 @@ describe('Basho Riak Client', () => {
     done();
   });
 
-  it('should delete a key/value from riak', function (done) {
+  it('should delete a key/value from riak', (done) => {
     //TODO
     done();
   });
