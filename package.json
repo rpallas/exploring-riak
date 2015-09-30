@@ -1,0 +1,45 @@
+{
+  "name": "sequoia-riak",
+  "version": "0.1.0",
+  "description": "trying out riak with sequoia",
+  "main": "index.js",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "dependencies": {
+    "async": "^1.4.2",
+    "basho-riak-client": "^1.7.0",
+    "lodash": "^3.10.1",
+    "nodiak": "^0.4.4",
+    "riak-js": "^1.1.0"
+  },
+  "devDependencies": {
+    "code": "^1.5.0",
+    "complexity-report": "^1.4.1",
+    "jscs": "^2.1.0",
+    "jsdoc": "^3.3.2",
+    "jshint": "^2.8.0",
+    "jshint-stylish": "^2.0.1",
+    "lab": "^5.15.1",
+    "sinon": "^1.15.4"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "sequoia",
+    "lib"
+  ],
+  "author": "Sequoia Engineering Team <SequoiaEngineeringTeam@piksel.com>",
+  "license": "Copyright © Piksel",
+  "publishConfig": {
+    "registry": "http://npm.sequoia.piksel.com/"
+  },
+  "directories": {
+    "test": "test"
+  }
+}

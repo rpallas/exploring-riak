@@ -1,0 +1,28 @@
+# webstorm
+.idea
+*.iml
+
+# eclipse
+.project
+.settings/
+
+# node/npm
+node_modules
+npm-debug.log
+/*.tgz
+/pkg
+.npmignore
+
+# build outputs
+coverage.html
+results.xml
+/jsdoc
+/logs
+
+# OS working files
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
+._*
+*/._*
+*/*/._*
