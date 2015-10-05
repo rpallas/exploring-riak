@@ -31,13 +31,17 @@ describe('Riak-js Client', () => {
   });
 
   it('should retrieve stats from riak', (done) => {
-    //TODO
-    done();
+    riak.stats((err, result) => {
+      expect(result).to.exist();
+      done(err);
+    });
   });
 
-  it('should store a key/value in riak', (done) => {
-    //TODO
-    done();
+  it('should store a key/value in riak', {skip:true}, (done) => {
+    riak.save('things', 'owner:name', {thing: 'value'}, (err, result) => {
+      expect(result).to.exist();
+      done(err);
+    });
   });
 
   it('should delete a key/value from riak', function (done) {
