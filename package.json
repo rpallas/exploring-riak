@@ -1,7 +1,7 @@
 {
-  "name": "sequoia-riak",
+  "name": "exploring-riak",
   "version": "0.1.0",
-  "description": "trying out riak with sequoia",
+  "description": "trying out riak",
   "main": "index.js",
   "engines": {
     "node": "0.10.x"
@@ -31,14 +31,8 @@
     "url": ""
   },
   "keywords": [
-    "sequoia",
     "lib"
   ],
-  "author": "Sequoia Engineering Team <SequoiaEngineeringTeam@piksel.com>",
-  "license": "Copyright © Piksel",
-  "publishConfig": {
-    "registry": "http://npm.sequoia.piksel.com/"
-  },
   "directories": {
     "test": "test"
   }
